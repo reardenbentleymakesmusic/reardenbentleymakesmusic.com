@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZSD508PP9V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-ZSD508PP9V');
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://reardenbentleymakesmusic.com/styles.css">
+    <link rel="icon" type="image/x-icon" href="https://reardenbentleymakesmusic.com/icon.png">
+    <title>order custom songs</title>
+  </head>
+  <body>
+    <div class="content">
+      <h1 class="text">order custom songs</h1>
+      <h3 class="text">commission your own music here.</h3>
+      <br>
+      <form method="post" onsubmit="submitForm(event)">
+        <label class="tablehead" for="name">name: </label>
+        <input autocomplete="off" class="textbox" type="text" id="name" name="name" required><br><br>
+        <label class="tablehead" for="email">email: </label>
+        <input autocomplete="off" class="textbox" type="email" id="email" name="email" required><br><br>
+        <label class="text" for="details"><strong>details: </strong>(you can use this template or replace it with one of your own)</label><br>
+        <textarea class="textbox" id="details" name="details" rows="10" cols="100" required>
+genre: 
+
+mood: 
+
+tempo: 
+
+approximate length: 
+
+other details: </textarea><br><br>
+        <button class="textbox" type="submit" id="submit">submit</button>
+        <span class="text">a confirmation email will be sent when you click submit.</span>
+      </form>
+    </div>
+    <footer>
+      <a href="https://reardenbentleymakesmusic.com"><p class="text">home</p></a>
+    </footer>
+    <script type="text/javascript">
+      function submitForm(event) {
+        event.preventDefault();
+        const form = event.target;
+
+        const orderData = {
+          email: form.email.value,
+          name: form.name.value,
+          details: form.details.value
+        };
+
+        fetch('https://us-central1-reardenbentleymakesmusic-dc963.cloudfunctions.net/sendOrderEmail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderData)
+        })
+          .then(response => response.json())
+          .then(orderData => {
+            console.log('Success:', orderData);
+            form.reset();
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
+        const confirmData = {
+          email: form.email.value,
+          details: form.details.value
+        };
+
+        fetch('https://us-central1-reardenbentleymakesmusic-dc963.cloudfunctions.net/sendConfirmEmail', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(confirmData)
+        })
+          .then(response => response.json())
+          .then(confirmData => {
+            console.log('Success:', confirmData);
+            form.reset();
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }
+    </script>
+  </body>  
+</html>
