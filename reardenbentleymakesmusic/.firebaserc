@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "default": "reardenbentleymakesmusic-dc963"
+  },
+  "targets": {},
+  "etags": {
+    "reardenbentleymakesmusic-dc963": {
+      "extensionInstances": {
+        "firestore-send-email": "07620b134aae74177b46f4d6dda60f80e2f43a18587be8c1e1ecd016ab9b5712"
+      }
+    }
+  }
+}
